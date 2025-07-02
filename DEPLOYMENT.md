@@ -1,6 +1,17 @@
 # 🚀 IDRT Subgraph Deployment Guide
 
+## 📁 **Repository:** https://github.com/yeheskieltame/Rupiah-tracking
+
 ## Step-by-Step Deployment ke The Graph Studio
+
+### 0. **Clone Repository (Optional)**
+
+Jika ingin clone repository ini:
+```bash
+git clone https://github.com/yeheskieltame/Rupiah-tracking.git
+cd Rupiah-tracking
+npm install
+```
 
 ### 1. **Setup Account & Subgraph**
 
@@ -34,8 +45,15 @@ graph auth --studio YOUR_DEPLOY_KEY_HERE
 ### 4. **Deploy Subgraph**
 
 ```bash
-# Make sure you're in project directory
-cd /Users/kiel/BI-ojk/rupiah-track
+# Clone repository (if not already)
+git clone https://github.com/yeheskieltame/Rupiah-tracking.git
+cd Rupiah-tracking
+
+# Install dependencies
+npm install
+
+# Generate types
+npm run codegen
 
 # Final build
 npm run build

@@ -1,5 +1,7 @@
 # IDRT Transaction Analysis with The Graph
 
+**Repository:** https://github.com/yeheskieltame/Rupiah-tracking
+
 Subgraph untuk menganalisis transaksi IDRT (Indonesian Rupiah Token) menggunakan The Graph Protocol dengan kemampuan tracking wallet yang comprehensive.
 
 ## 🎯 Features
@@ -164,18 +166,26 @@ query GetTransactionDetails($txHash: Bytes!) {
 }
 ```
 
-## 🚀 **Deployment & Usage**
+## 🚀 **Quick Start**
 
-### Quick Start
+### 1. **Clone & Setup**
+```bash
+git clone https://github.com/yeheskieltame/Rupiah-tracking.git
+cd Rupiah-tracking
+npm install
+```
 
-1. **Deploy to Subgraph Studio:**
+### 2. **Deploy to Subgraph Studio**
+### 2. **Deploy to Subgraph Studio**
 ```bash
 npm install -g @graphprotocol/graph-cli
 graph auth --studio YOUR_DEPLOY_KEY
-graph deploy --studio idrt-analyzer
+npm run codegen
+npm run build
+graph deploy --studio idrt-transaction-analyzer
 ```
 
-2. **Query your data:**
+### 3. **Query your data:**
 ```javascript
 const query = `
   query GetWalletActivity($wallet: Bytes!) {
