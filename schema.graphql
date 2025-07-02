@@ -26,7 +26,8 @@ type Approval @entity(immutable: true) {
 }
 
 type Account @entity(immutable: false) {
-  id: Bytes! # address
+  id: String! # address (lowercase)
+  address: Bytes! # original address 
   balance: BigInt!
   transferCount: BigInt!
   approvalCount: BigInt!

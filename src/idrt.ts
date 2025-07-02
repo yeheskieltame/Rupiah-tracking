@@ -73,10 +73,12 @@ export function handleApproval(event: ApprovalEvent): void {
 
 // Helper function to get or create account
 function getOrCreateAccount(address: Address): Account {
-  // Always use the Address type directly as ID (Graph handles lowercase conversion)
-  let account = Account.load(address)
+  // Convert address to lowercase string for consistent ID
+  let addressString = address.toHexString().toLowerCase()
+  let account = Account.load(addressString)
   if (!account) {
-    account = new Account(address)
+    account = new Account(addressString)
+    account.address = address
     account.balance = BigInt.fromI32(0)
     account.transferCount = BigInt.fromI32(0)
     account.approvalCount = BigInt.fromI32(0)
