@@ -73,6 +73,7 @@ export function handleApproval(event: ApprovalEvent): void {
 
 // Helper function to get or create account
 function getOrCreateAccount(address: Address): Account {
+  // Always use the Address type directly as ID (Graph handles lowercase conversion)
   let account = Account.load(address)
   if (!account) {
     account = new Account(address)
@@ -140,11 +141,13 @@ function updateAccount(
 function updateWalletInteraction(event: TransferEvent): void {
   let fromAddress = event.params.from.toHexString()
   let toAddress = event.params.to.toHexString()
-  let interactionId = Bytes.fromUTF8(fromAddress + "-" + toAddress)
+  // Simple concatenation for ID
+  let interactionId = fromAddress + "-" + toAddress
+  let interactionIdBytes = Bytes.fromUTF8(interactionId)
   
-  let interaction = WalletInteraction.load(interactionId)
+  let interaction = WalletInteraction.load(interactionIdBytes)
   if (!interaction) {
-    interaction = new WalletInteraction(interactionId)
+    interaction = new WalletInteraction(interactionIdBytes)
     interaction.from = event.params.from
     interaction.to = event.params.to
     interaction.transferCount = BigInt.fromI32(0)

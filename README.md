@@ -4,6 +4,44 @@
 
 Subgraph untuk menganalisis transaksi IDRT (Indonesian Rupiah Token) menggunakan The Graph Protocol dengan kemampuan tracking wallet yang comprehensive.
 
+## 🌟 **Open Source & Community Driven**
+
+Project ini adalah **open source** dan terbuka untuk kontribusi dari komunitas blockchain Indonesia. Mari bersama-sama membangun tools analisis yang powerful untuk ekosistem IDRT!
+
+### 🤝 **Contributing**
+Kami sangat welcome kontribusi dalam bentuk:
+- 🐛 **Bug Reports** - Laporkan issues yang ditemukan
+- 💡 **Feature Requests** - Suggest fitur baru
+- 🔧 **Pull Requests** - Code contributions
+- 📖 **Documentation** - Improve docs & tutorials
+- 🧪 **Testing** - Help test across different scenarios
+
+**How to Contribute:**
+1. Fork repository ini
+2. Create feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit changes (`git commit -m 'Add amazing feature'`)
+4. Push to branch (`git push origin feature/amazing-feature`)  
+5. Open Pull Request
+
+### 💖 **Support the Project**
+
+Jika project ini membantu analisis Anda dan ingin mendukung development:
+
+**🏦 Donation Address (EVM):**
+```
+0x86979D26A14e17CF2E719dcB369d559f3ad41057
+```
+
+**Supported tokens:** ETH, USDC, USDT, IDRT, atau token EVM lainnya
+
+**💰 Donasi akan digunakan untuk:**
+- 🚀 **Publishing ke Mainnet** (memerlukan GRT tokens)
+- ⚡ **Server infrastructure** untuk hosting additional tools
+- 🔧 **Development** fitur-fitur baru
+- 📚 **Documentation** dan tutorial lengkap
+
+---
+
 ## 🎯 Features
 
 ### ✅ **Complete Transaction Tracking**
@@ -251,24 +289,87 @@ fetch('YOUR_SUBGRAPH_ENDPOINT', {
 ```
 rupiah-track/
 ├── schema.graphql          # Data schema definitions
-├── subgraph.yaml          # Subgraph configuration
+├── subgraph.yaml          # Subgraph configuration  
 ├── src/idrt.ts            # Event handlers & mapping logic
 ├── abis/IDRT.json         # Contract ABI
 ├── QUERIES.md             # Complete query examples
+├── CONTRIBUTING.md        # Contribution guidelines
+├── FUNDING.md            # Support & funding information
 └── README.md              # This file
 ```
 
 ## 🔗 **Network Configuration**
 - **Network**: Ethereum Mainnet
 - **Contract**: `0x998FFE1E43fAcffb941dc337dD0468d52bA5b48A`
-- **Start Block**: `7542084`
+- **Start Block**: `22823056` (recent blocks for fast sync)
 - **Decimals**: 18 (1 IDRT = 1000000000000000000 wei)
 
+## 🤝 **Contributing**
+
+We welcome contributions from the Indonesian blockchain community! 
+
+### **Quick Start for Contributors**
+```bash
+# Fork & clone repository
+git clone https://github.com/YOUR-USERNAME/Rupiah-tracking.git
+cd Rupiah-tracking
+
+# Setup development environment
+npm install
+npm run codegen
+npm run build
+
+# Create feature branch & start contributing!
+git checkout -b feature/your-amazing-feature
+```
+
+**See [CONTRIBUTING.md](./CONTRIBUTING.md) for detailed guidelines.**
+
+### **Areas Where We Need Help**
+- 🔍 **Advanced Analytics** - Volume analysis, whale detection
+- 📊 **Frontend Dashboard** - React/Vue.js visualization
+- 📱 **Mobile Integration** - React Native/Flutter apps  
+- 🤖 **Bot Development** - Telegram/Discord alert bots
+- 📖 **Documentation** - Tutorials, API docs, translations
+- 🧪 **Testing** - Cross-network testing, performance testing
+
+## 💖 **Support the Project**
+
+Help us build better blockchain analytics tools for Indonesia!
+
+### **🏦 Donate Crypto**
+**EVM Address (ETH/MATIC/BNB/USDC/USDT/IDRT):**
+```
+0x86979D26A14e17CF2E719dcB369d559f3ad41057
+```
+
+### **🎯 Funding Goals**
+- **Goal 1**: $500 - Publish to mainnet (GRT tokens + gas)
+- **Goal 2**: $1,500 - Web dashboard & alerting system  
+- **Goal 3**: $3,000 - Advanced features & integrations
+
+**See [FUNDING.md](./FUNDING.md) for detailed funding information.**
+
+### **🏆 Supporter Perks**
+- **$10+**: Early access + priority support
+- **$50+**: Feature request priority + contributor status
+- **$200+**: Logo placement + consultation call  
+- **$500+**: Platinum partnership + custom integrations
+
 ## 📚 **Resources**
-- [Complete Query Guide](./QUERIES.md) - Detailed query examples
-- [The Graph Docs](https://thegraph.com/docs/) - Official documentation
-- [GraphQL Learning](https://graphql.org/learn/) - GraphQL basics
+- **📁 Repository**: https://github.com/yeheskieltame/Rupiah-tracking
+- **📖 Complete Queries**: [QUERIES.md](./QUERIES.md)
+- **🚀 Deployment Guide**: [DEPLOYMENT.md](./DEPLOYMENT.md)
+- **🤝 Contributing**: [CONTRIBUTING.md](./CONTRIBUTING.md)
+- **💖 Support Project**: [FUNDING.md](./FUNDING.md)
+- **📚 The Graph Docs**: https://thegraph.com/docs/
 
 ---
 
-**Ready untuk analisis transaksi IDRT yang mendalam! 🚀**
+## 🇮🇩 **Made with ❤️ for Indonesian Blockchain Community**
+
+**Project ini didedikasikan untuk komunitas blockchain Indonesia. Mari bersama-sama membangun ekosistem crypto yang lebih transparan dan powerful! 🚀**
+
+---
+
+**Ready untuk analisis transaksi IDRT yang mendalam! Start exploring sekarang! �✨**
