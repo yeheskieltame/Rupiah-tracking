@@ -16,12 +16,20 @@ dataSources:
       apiVersion: 0.0.9
       language: wasm/assemblyscript
       entities:
+        - Transfer
+        - Approval
+        - Account
+        - DailyTransferSummary
         - AdminChanged
         - Upgraded
       abis:
         - name: IDRT
           file: ./abis/IDRT.json
       eventHandlers:
+        - event: Transfer(indexed address,indexed address,uint256)
+          handler: handleTransfer
+        - event: Approval(indexed address,indexed address,uint256)
+          handler: handleApproval
         - event: AdminChanged(address,address)
           handler: handleAdminChanged
         - event: Upgraded(indexed address)

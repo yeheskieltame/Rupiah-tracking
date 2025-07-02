@@ -1,3 +1,83 @@
+type Transfer @entity(immutable: true) {
+  id: Bytes!
+  from: Bytes! # address
+  to: Bytes! # address
+  value: BigInt! # uint256
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+  gasUsed: BigInt
+  gasPrice: BigInt
+  # Untuk mudah search
+  fromAccount: Account!
+  toAccount: Account!
+}
+
+type Approval @entity(immutable: true) {
+  id: Bytes!
+  owner: Bytes! # address
+  spender: Bytes! # address
+  value: BigInt! # uint256
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+  # Untuk mudah search
+  ownerAccount: Account!
+}
+
+type Account @entity(immutable: false) {
+  id: Bytes! # address
+  balance: BigInt!
+  transferCount: BigInt!
+  approvalCount: BigInt!
+  firstTransactionHash: Bytes
+  firstTransactionTimestamp: BigInt
+  lastTransactionHash: Bytes
+  lastTransactionTimestamp: BigInt
+  # Total sent and received
+  totalSent: BigInt!
+  totalReceived: BigInt!
+  # Relations untuk easy querying
+  transfersFrom: [Transfer!]! @derivedFrom(field: "fromAccount")
+  transfersTo: [Transfer!]! @derivedFrom(field: "toAccount")
+  approvalsGiven: [Approval!]! @derivedFrom(field: "ownerAccount")
+}
+
+type DailyTransferSummary @entity(immutable: false) {
+  id: Bytes! # date in YYYY-MM-DD format as bytes
+  date: String! # YYYY-MM-DD
+  transferCount: BigInt!
+  totalVolume: BigInt!
+  uniqueSenders: BigInt!
+  uniqueReceivers: BigInt!
+}
+
+# Entitas baru untuk tracking hubungan antar wallet
+type WalletInteraction @entity(immutable: false) {
+  id: Bytes! # fromAddress-toAddress
+  from: Bytes! # address
+  to: Bytes! # address
+  transferCount: BigInt!
+  totalVolume: BigInt!
+  firstTransactionHash: Bytes!
+  firstTransactionTimestamp: BigInt!
+  lastTransactionHash: Bytes!
+  lastTransactionTimestamp: BigInt!
+  # Relations
+  fromAccount: Account!
+  toAccount: Account!
+}
+
+# Global statistics
+type GlobalStat @entity(immutable: false) {
+  id: Bytes! # "global"
+  totalTransfers: BigInt!
+  totalVolume: BigInt!
+  totalAccounts: BigInt!
+  largestTransfer: BigInt!
+  largestTransferHash: Bytes
+}
+
 type AdminChanged @entity(immutable: true) {
   id: Bytes!
   previousAdmin: Bytes! # address
