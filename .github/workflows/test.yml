@@ -1,0 +1,187 @@
+name: 🧪 Test Subgraph Build
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    
+    strategy:
+      matrix:
+        node-version: [18.x, 20.x]
+
+    steps:
+    - name: 📥 Checkout Repository
+      uses: actions/checkout@v4
+
+    - name: 🟢 Setup Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+
+    - name: 📦 Install Dependencies
+      run: npm ci
+
+    - name: 🔧 Install Graph CLI
+      run: npm install -g @graphprotocol/graph-cli
+
+    - name: 🏗️ Generate Code
+      run: npm run codegen
+
+    - name: 🔨 Build Subgraph
+      run: npm run build
+
+    - name: ✅ Validate Schema
+      run: |
+        # Check if schema.graphql is valid
+        if [ ! -f "schema.graphql" ]; then
+          echo "❌ schema.graphql not found"
+          exit 1
+        fi
+        echo "✅ Schema file exists"
+
+    - name: ✅ Validate Subgraph Configuration
+      run: |
+        # Check if subgraph.yaml is valid
+        if [ ! -f "subgraph.yaml" ]; then
+          echo "❌ subgraph.yaml not found"
+          exit 1
+        fi
+        echo "✅ Subgraph configuration exists"
+
+    - name: ✅ Check Generated Files
+      run: |
+        # Check if generated files exist
+        if [ ! -d "generated" ]; then
+          echo "❌ Generated directory not found"
+          exit 1
+        fi
+        if [ ! -f "generated/schema.ts" ]; then
+          echo "❌ Generated schema.ts not found"
+          exit 1
+        fi
+        echo "✅ Generated files exist"
+
+    - name: ✅ Check Build Output
+      run: |
+        # Check if build output exists
+        if [ ! -d "build" ]; then
+          echo "❌ Build directory not found"
+          exit 1
+        fi
+        if [ ! -f "build/subgraph.yaml" ]; then
+          echo "❌ Built subgraph.yaml not found"
+          exit 1
+        fi
+        echo "✅ Build output exists"
+
+    - name: 🧪 Run Tests (if available)
+      run: |
+        if [ -f "package.json" ] && grep -q '"test"' package.json; then
+          npm test
+        else
+          echo "ℹ️ No tests configured, skipping"
+        fi
+
+    - name: 📊 Analyze Bundle Size
+      run: |
+        echo "📦 Build directory contents:"
+        ls -la build/
+        echo ""
+        echo "📁 Generated directory contents:"
+        ls -la generated/
+        echo ""
+        echo "✅ Build analysis complete"
+
+  lint-docs:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: 📥 Checkout Repository
+      uses: actions/checkout@v4
+
+    - name: 📖 Check Documentation
+      run: |
+        echo "🔍 Checking required documentation files..."
+        
+        required_files=("README.md" "CONTRIBUTING.md" "FUNDING.md" "QUERIES.md")
+        missing_files=()
+        
+        for file in "${required_files[@]}"; do
+          if [ ! -f "$file" ]; then
+            missing_files+=("$file")
+          else
+            echo "✅ $file exists"
+          fi
+        done
+        
+        if [ ${#missing_files[@]} -ne 0 ]; then
+          echo "❌ Missing documentation files:"
+          printf '%s\n' "${missing_files[@]}"
+          exit 1
+        fi
+        
+        echo "✅ All required documentation files present"
+
+    - name: 🔗 Check Links in README
+      run: |
+        echo "🔍 Checking for required links in README..."
+        
+        if ! grep -q "github.com/yeheskieltame/Rupiah-tracking" README.md; then
+          echo "❌ Repository link missing in README"
+          exit 1
+        fi
+        
+        if ! grep -q "0x86979D26A14e17CF2E719dcB369d559f3ad41057" README.md; then
+          echo "❌ Donation address missing in README"
+          exit 1
+        fi
+        
+        echo "✅ Required links present in README"
+
+  security-check:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: 📥 Checkout Repository
+      uses: actions/checkout@v4
+
+    - name: 🟢 Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20.x'
+        cache: 'npm'
+
+    - name: 📦 Install Dependencies
+      run: npm ci
+
+    - name: 🔒 Run Security Audit
+      run: |
+        echo "🔍 Running npm security audit..."
+        npm audit --audit-level moderate
+        
+    - name: 🔍 Check for Sensitive Files
+      run: |
+        echo "🔍 Checking for sensitive files..."
+        
+        sensitive_patterns=(".env" "*.key" "*.pem" "*secret*" "*private*")
+        found_sensitive=()
+        
+        for pattern in "${sensitive_patterns[@]}"; do
+          if find . -name "$pattern" -not -path "./node_modules/*" | grep -q .; then
+            found_sensitive+=("$pattern")
+          fi
+        done
+        
+        if [ ${#found_sensitive[@]} -ne 0 ]; then
+          echo "⚠️ Found potentially sensitive files:"
+          printf '%s\n' "${found_sensitive[@]}"
+          echo "Please review and add to .gitignore if needed"
+        else
+          echo "✅ No sensitive files found"
+        fi
